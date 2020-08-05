@@ -17,13 +17,17 @@ const self = {
   },
   getResults: async (nr) => {
     let elements = await self.page.$$('#siteTable > div[class*="thing"]');
-    for (let element of elements) {
-      let title = await element.$eval(('p[class="title"]'), node => node.innerText.trim());
+    let links = await self.page.$$('a[classname="title"]');
+    elements.forEach(async (element) => {
+      console.log(links.length);
+      let title = await element.$eval(('p[class="title"]'), node => {
+        console.log(node);
+        node.innerText.trim();
+      });
       console.log(title);
-    }
-
-  }
-}
+    });
+  },
+};
 
  
 export default self;
