@@ -17,14 +17,14 @@ const self = {
   },
   getResults: async (nr) => {
     let elements = await self.page.$$('#siteTable > div[class*="thing"]');
-    let links = await self.page.$$('a[classname="title"]');
-    elements.forEach(async (element) => {
-      console.log(links.length);
+    // let links = await self.page.$$('a[classname="title"]');
+    const hrefs = await self.page.$$eval('p[class="title"] > a', as => as.map(a => a.href));
+    console.log(hrefs.length, elements.length);
+    elements.forEach(async (element, i) => {
       let title = await element.$eval(('p[class="title"]'), node => {
-        console.log(node);
-        node.innerText.trim();
+        return node.innerText.trim();
       });
-      console.log(title);
+      console.log('\n', title, '\n\n', hrefs[i], '\n======');
     });
   },
 };
